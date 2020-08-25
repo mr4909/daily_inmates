@@ -1,6 +1,7 @@
 ##############################
 # Author: Mari Roberts
-# Date: 8/04/2020
+# Date: 8/03/2020
+# Import and Clean
 ##############################
 
 # load necessary packages
@@ -43,14 +44,6 @@ inmates <- inmates %>% mutate(gender = ifelse(gender == "M",0,1),
                               in_mental_observation = ifelse(in_mental_observation == "N",0,1),
                               in_gang = ifelse(in_gang == "N",0,1),
                               infraction = ifelse(infraction == "N",0,1))
-# 
-# inmates <- inmates %>% mutate(race_new = case_when(race=B ~ "Black",
-#                                                    race=O ~ "Other",
-#                                                    race=W ~ "White",
-#                                                    race=A ~ "Asian",
-#                                                    race=U ~ "Unknown",
-#                                                    race=I ~ "Native American))
-
 
 #factor variables
 inmates$inmate_ID <-factor(inmates$inmate_ID)
@@ -64,7 +57,6 @@ inmates$custody_level <- factor(inmates$custody_level, ordered = TRUE,
 levels(inmates$race)
 levels(inmates$race) <- c("Asian", "Black", "Native American",
                           "Other", "Unknown", "White")
-
 levels(inmates$gender)
 levels(inmates$gender) <- c("Male", "Female")
 
@@ -72,10 +64,8 @@ levels(inmates$gender) <- c("Male", "Female")
 inmates$date_admitted <- mdy_hms(inmates$date_admitted)
 # inmates$date_discharged <- mdy_hms(inmates$date_discharged)
 
-inmates_no_NA <- inmates %>% filter(race != "NA"&
-                                      gender != "NA"&
-                                      age != "NA"&
-                                      custody_level != "NA")
-         
-# check for NA's
-# map(inmates, ~sum(is.na(.)))
+# remove NAs
+inmates <- inmates %>% filter(race != "NA"&
+                                    gender != "NA"&
+                                    age != "NA"&
+                                    custody_level != "NA")
