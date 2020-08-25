@@ -4,4 +4,4 @@ Daily inmates in custody with attributes (custody level, mental health designati
 
 **import.R:** imports and cleans Daily Inmates In Custody data.
 
-**ccrb.data.csv.zip:** cleaned Daily Inmates In Custody data as of 8/04/2020.
+**daily_inmates.csv:** cleaned Daily Inmates In Custody data as of 8/04/2020.
