@@ -19,7 +19,7 @@ for(p in requiredPackages){
 # import data
 ###############
 
-inmates <- read_csv("Daily_Inmates_In_Custody.csv")
+inmates <- read_csv("Daily_Inmates_In_Custody_8_26_2020.csv")
 
 ###############
 # clean data
@@ -65,7 +65,29 @@ inmates$date_admitted <- mdy_hms(inmates$date_admitted)
 # inmates$date_discharged <- mdy_hms(inmates$date_discharged)
 
 # remove NAs
-inmates <- inmates %>% filter(race != "NA"&
-                                    gender != "NA"&
-                                    age != "NA"&
-                                    custody_level != "NA")
+inmates <- inmates %>% filter(race != "NA" &
+                              #gender != "NA"
+                              age != "NA"
+                              #custody_level != "NA"
+                              )
+
+# extract month, year, and day
+inmates$year <- format(inmates$date_admitted, "%Y")
+inmates$month <- format(inmates$date_admitted, "%b")
+inmates$day <- format(inmates$date_admitted, "%d")
+inmates$month_day <- format(inmates$date_admitted, "%d-%b")
+inmates$common_date <- as.Date(paste0(inmates$year,"-",format(inmates$date_admitted, "%j")), "%Y-%j")
+
+# create age groups
+inmates <- inmates %>% 
+  mutate(agegroup = 
+           case_when(age <= 20 ~ "18-20",
+                     age >=21 & age<= 25 ~ "21-25",
+                     age >=26 & age<= 30   ~ "26-30",
+                     age >=31 & age<= 35   ~ "31-35",
+                     age >=36 & age<= 40   ~ "36-40",
+                     age >=41 & age<= 45   ~ "41-45",
+                     age >=46 & age<= 50   ~ "46-50",
+                     age >=51 & age<= 55   ~ "51-55",
+                     age >= 56   ~ "56+",
+                     ))
